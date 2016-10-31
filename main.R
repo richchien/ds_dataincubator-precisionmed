@@ -15,11 +15,11 @@ setwd(datafolder)
 
 # Download files
 # setup MEPS data files for download, reference https://gist.github.com/ajdamico/669666
-year <- c(2008:2012)
-consolid <- c(129,138,127, 155, 163, 171)
-conditions <- c(128,137,126, 154,162,170)
-prp <- c(127,136,125, 153,161,169)
-events <- c(126,135,124, 152,160,168)
+year <-       c(2008:2012)
+consolid <-   c(79,89,97,105,113,121,129,138,127,155)
+conditions <- c(78,87,96,104,112,120,128,137,126,154)
+prp <-        c(76,88,95,103,111,119,127,136,125,153)
+events <-     c(77,85,94,102,110,118,126,135,124,152)
 downloadsetup <- data.frame(year, consolid, conditions, prp, events)
 
 # additional events files
@@ -50,7 +50,7 @@ for (i in 1:nrow(downloadsetup) ) {
 }
 
 
-# task 1
+# Task 1
 # explore healthcare expenditures for cancer patients vs non-cancer patients
 
 # read consolidated file overall summary for 2012
@@ -62,6 +62,9 @@ names(consolid_set) <- c("DUPERSID", "CANCERDX", "Office_visit", "Outpatient", "
 consolid_set %>% filter(CANCERDX==1) -> consolid_cancer
 consolid_set %>% filter(CANCERDX==2) -> consolid_noncancer
 
+write.csv(consolid_cancer, "consolid_cancer.csv")
+write.csv(consolid_noncancer, "consolid_noncancer.csv")
+  
 mods <- theme_bw() +
 theme(axis.title = element_text(size = "16"),
 	panel.grid.minor = element_blank(), 
@@ -107,7 +110,7 @@ mods
 grid.arrange(p1, p2)
 
 
-# task 2 
+# Task 2 
 # explore cost trends 2003 - 2012 of chemotherapy expenditures for cancer patients by insurance coverage
 # 1455683 observations
 
@@ -144,6 +147,7 @@ df %>%
 	gather(insurance, value, self_paid:other) %>%
 	mutate(adj_exp = value * 229.594/cpi) %>%
 	group_by(yr, insurance) %>% dplyr::summarize(mean_expenditure=mean(value), mean_adj_expenditure=mean(adj_exp), count=n()) -> dfchemo
+	write.csv(dfchemo, "chemo-trend.csv")
 
 mods2 <- theme_bw() +
 theme(axis.title = element_text(size = "16"),
@@ -171,4 +175,4 @@ mods2
 # plot 2
 pchemo
 
-write.csv(df, "chemo-trend.csv")
+
