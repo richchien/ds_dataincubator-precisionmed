@@ -1,7 +1,7 @@
 ### Proposal: Predicting the price for precision medicine
+### Data source: MEPS https://meps.ahrq.gov/mepsweb/data_stats/download_data_files.jsp
+### R script: https://github.com/richchien/ds_dataincubator-precisionmed/blob/master/main.R
 
-### Data source: MEPS
-### https://meps.ahrq.gov/mepsweb/data_stats/download_data_files.jsp
 library(RCurl)
 library(foreign)
 library(plyr)
@@ -14,7 +14,7 @@ datafolder <- "C:/Users/RC3258/Documents/ds_data-incubator-precisionmed/data"
 setwd(datafolder)
 
 # Download files
-# setup MEPS data files for download, reference https://gist.github.com/ajdamico/669666
+# setup MEPS data files for download, adapted from https://gist.github.com/ajdamico/669666
 year <-       c(2008:2012)
 consolid <-   c(79,89,97,105,113,121,129,138,127,155)
 conditions <- c(78,87,96,104,112,120,128,137,126,154)
@@ -22,7 +22,7 @@ prp <-        c(76,88,95,103,111,119,127,136,125,153)
 events <-     c(77,85,94,102,110,118,126,135,124,152)
 downloadsetup <- data.frame(year, consolid, conditions, prp, events)
 
-# additional events files
+# setup additional medical events files
 downloadsetup$medi <- paste0(downloadsetup$events,"a")
 downloadsetup$dental <- paste0(downloadsetup$events,"b")
 downloadsetup$otherxp <- paste0(downloadsetup$events,"c")
@@ -50,8 +50,7 @@ for (i in 1:nrow(downloadsetup) ) {
 }
 
 
-# Task 1
-# explore healthcare expenditures for cancer patients vs non-cancer patients
+### Task 1: explore healthcare expenditures for cancer patients vs non-cancer patients
 
 # read consolidated file overall summary for 2012
 consolid <- read.xport("2012_consolid.ssp")
@@ -110,8 +109,7 @@ mods
 grid.arrange(p1, p2)
 
 
-# Task 2 
-# explore cost trends 2003 - 2012 of chemotherapy expenditures for cancer patients by insurance coverage
+### Task 2: Explore cost trends 2003 - 2012 of chemotherapy expenditures for cancer patients by insurance coverage
 # 1455683 observations
 
 # CPI table to adjust price http://www.usinflationcalculator.com/inflation/consumer-price-index-and-annual-percent-changes-from-1913-to-2008/
@@ -138,7 +136,7 @@ compile.office <- function(datafile) {
 	return(df)
 }
 
-# combine 2003 - 2012
+# combine 2003 - 2012 office visit files
 filelist = list.files(pattern=".*_office") 
 df <- ldply(filelist, compile.office)
 
@@ -174,5 +172,3 @@ mods2
 
 # plot 2
 pchemo
-
-
