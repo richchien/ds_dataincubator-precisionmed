@@ -15,11 +15,11 @@ setwd(datafolder)
 
 # Download files
 # setup MEPS data files for download, adapted from https://gist.github.com/ajdamico/669666
-year <-       c(2008:2012)
-consolid <-   c(79,89,97,105,113,121,129,138,127,155)
-conditions <- c(78,87,96,104,112,120,128,137,126,154)
-prp <-        c(76,88,95,103,111,119,127,136,125,153)
-events <-     c(77,85,94,102,110,118,126,135,124,152)
+year <-       c(2003:2012)
+consolid <-   c(79,89,97,105,113,121,129,138,127,155,163,171)
+conditions <- c(78,87,96,104,112,120,128,137,126,154,162,170)
+prp <-        c(76,88,95,103,111,119,127,136,125,153,161,169)
+events <-     c(77,85,94,102,110,118,126,135,124,152,160,168)
 downloadsetup <- data.frame(year, consolid, conditions, prp, events)
 
 # setup additional medical events files
